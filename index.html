@@ -1,0 +1,585 @@
+<html><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SESSIONCORE Steuerzentrale - Erweiterte Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#0d1014",
+                        "surface-dark": "#161b20",
+                        "surface-light": "#1c2228"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    fontSize: {
+                        "xxs": "0.65rem",
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        input[type=range] {
+            height: 4px;
+            -webkit-appearance: none;
+            margin: 8px 0;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #283039;
+            border-radius: 2px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #137fec;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -6px;
+            box-shadow: 0 0 0 2px rgba(19, 127, 236, 0.2);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+        }
+        input[type=range].accent-red::-webkit-slider-thumb {
+            background: #ef4444;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+        }
+        input[type=range].accent-orange::-webkit-slider-thumb {
+            background: #f97316;
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+        }
+        input[type=range].accent-purple::-webkit-slider-thumb {
+            background: #a855f7;
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+        }
+        input[type=range].accent-green::-webkit-slider-thumb {
+            background: #22c55e;
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+        }
+        input[type=range].accent-pink::-webkit-slider-thumb {
+            background: #ec4899;
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .compact-input {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
+            text-align: right;
+        }
+        .compact-input:focus {
+            box-shadow: none;
+            outline: none;
+        }
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #137fec;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #137fec;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+            overscroll-behavior-y: none;
+        }
+        .calibration-done {
+            background-color: rgba(34, 197, 94, 0.08);
+            border-color: rgba(34, 197, 94, 0.5) !important;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.15);
+        }
+        .led-green {
+            background-color: #22c55e;
+            box-shadow: 0 0 6px #22c55e;
+        }
+        .range-slider-track {
+            height: 10px;
+            background: #111418;
+            border: 1px solid #283039;
+            border-radius: 5px;
+            position: relative;
+        }
+        .range-slider-range {
+            position: absolute;
+            height: 100%;
+            background: #137fec33;
+            border-left: 1px solid #137fec;
+            border-right: 1px solid #137fec;
+            cursor: grab;
+        }
+        .range-slider-handle {
+            position: absolute;
+            top: -3px;
+            width: 4px;
+            height: 16px;
+            background: #f8fafc;
+            border-radius: 2px;
+            cursor: ew-resize;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .range-slider-handle.left {
+            left: -2px;
+        }
+        .range-slider-handle.right {
+            right: -2px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-white overflow-hidden selection:bg-primary/30">
+<div class="relative flex h-screen w-full max-w-md mx-auto flex-col bg-background-dark overflow-hidden shadow-2xl">
+<header class="flex flex-col border-b border-[#283039] z-20 bg-surface-dark">
+<div class="flex items-center justify-between px-3 py-2">
+<h2 class="text-white text-base font-bold leading-tight tracking-tight flex-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">hub</span>
+                    SESSIONCORE
+                    <span class="material-symbols-outlined text-[#516071] text-[16px] cursor-pointer hover:text-white transition-colors">settings</span>
+</h2>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 bg-[#2d353e] hover:bg-[#3b4754] px-2 py-1 rounded-md border border-[#3b4754] transition-all group active:scale-95">
+<span class="material-symbols-outlined text-[#516071] group-hover:text-blue-400 text-[16px] transition-colors">bluetooth</span>
+<span class="text-[10px] font-bold text-[#9dabb9] group-hover:text-white uppercase tracking-wide">Verbinden</span>
+</button>
+<div class="relative flex items-center justify-center w-6 h-6 rounded-full bg-[#1c2228] border border-[#283039]">
+<span class="material-symbols-outlined text-green-500 text-[14px]">wifi</span>
+<div class="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></div>
+</div>
+</div>
+</div>
+<div class="bg-red-500/5 border-t border-red-500/20 px-3 py-1 flex items-center justify-between min-h-[24px]">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-red-500 text-[14px]">gpp_good</span>
+<span class="text-red-500 text-[9px] font-bold tracking-wide uppercase">Hard Stop Aktiv</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-1 w-16 bg-red-900/40 rounded-full overflow-hidden">
+<div class="h-full bg-red-500 w-[75%]"></div>
+</div>
+<span class="text-[9px] text-red-400 font-mono font-bold">920 PSI</span>
+</div>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto no-scrollbar pb-20 scroll-smooth px-2 py-2">
+<div class="mb-2">
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039]">
+<div class="grid grid-cols-3 gap-1.5 mb-3">
+<button class="group flex flex-col items-center justify-center rounded bg-primary hover:bg-blue-600 active:scale-95 transition-all h-12 shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined text-[20px] mb-0.5">play_arrow</span>
+<span class="text-[10px] font-bold">START</span>
+</button>
+<button class="flex flex-col items-center justify-center rounded bg-[#2d353e] hover:bg-[#343e49] active:scale-95 transition-all h-12 border border-[#3b4754]">
+<span class="material-symbols-outlined text-white text-[20px] mb-0.5">stop</span>
+<span class="text-[10px] font-bold text-white">STOPP</span>
+</button>
+<button class="flex flex-col items-center justify-center rounded bg-cyan-900/20 hover:bg-cyan-900/30 active:scale-95 border border-cyan-500/30 text-cyan-400 h-12 transition-all">
+<span class="material-symbols-outlined text-[20px] mb-0.5">ac_unit</span>
+<span class="text-[10px] font-bold">ABKÜHLEN</span>
+</button>
+</div>
+<div class="border-t border-[#283039] pt-2">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#9dabb9] text-[14px]">scale</span>
+<span class="text-[9px] text-[#9dabb9] font-bold uppercase tracking-wider">Kalibrierung Abgeschlossen</span>
+</div>
+<div class="flex gap-1">
+<div class="h-1.5 w-1.5 rounded-full led-green"></div>
+<div class="h-1.5 w-1.5 rounded-full led-green"></div>
+<div class="h-1.5 w-1.5 rounded-full led-green"></div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="relative flex flex-col items-center justify-center border rounded py-2 active:scale-95 transition-all group overflow-hidden calibration-done">
+<span class="material-symbols-outlined absolute top-1 right-1 text-green-500 text-[12px] font-bold">check_circle</span>
+<span class="text-[8px] text-green-400 uppercase font-bold mb-0.5 transition-colors">Basis</span>
+<span class="text-[9px] text-white font-mono font-bold leading-none">Messung OK</span>
+</button>
+<button class="relative flex flex-col items-center justify-center border rounded py-2 active:scale-95 transition-all group overflow-hidden calibration-done">
+<span class="material-symbols-outlined absolute top-1 right-1 text-green-500 text-[12px] font-bold">check_circle</span>
+<span class="text-[8px] text-green-400 uppercase font-bold mb-0.5 transition-colors">Reizpunkt</span>
+<span class="text-[9px] text-white font-mono font-bold leading-none">Messung OK</span>
+</button>
+<button class="relative flex flex-col items-center justify-center border rounded py-2 active:scale-95 transition-all group overflow-hidden calibration-done">
+<span class="material-symbols-outlined absolute top-1 right-1 text-green-500 text-[12px] font-bold">check_circle</span>
+<span class="text-[8px] text-green-400 uppercase font-bold mb-0.5 transition-colors">Maximum</span>
+<span class="text-[9px] text-white font-mono font-bold leading-none">Messung OK</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-5 gap-1.5 mb-2">
+<div class="flex flex-col items-center justify-center p-1 rounded bg-surface-light border border-[#283039]">
+<span class="material-symbols-outlined text-[#9dabb9] text-[14px] leading-none mb-1">timer</span>
+<p class="text-white text-sm font-bold font-mono leading-none">12 <span class="text-xs text-[#516071]">Min</span></p>
+</div>
+<div class="flex flex-col items-center justify-center p-1 rounded bg-surface-light border border-[#283039]">
+<span class="material-symbols-outlined text-[#9dabb9] text-[14px] leading-none mb-1">trending_up</span>
+<p class="text-white text-sm font-bold font-mono leading-none flex items-baseline gap-1">3 <span class="text-[10px] text-[#516071] font-bold">EDGES</span></p>
+</div>
+<div class="flex flex-col items-center justify-center p-1 rounded bg-surface-light border border-[#283039]">
+<span class="material-symbols-outlined text-[#9dabb9] text-[14px] leading-none mb-1">compress</span>
+<p class="text-white text-sm font-bold font-mono leading-none">850 <span class="text-xs text-[#516071]">PSI</span></p>
+</div>
+<div class="flex flex-col items-center justify-center p-1 rounded bg-surface-light border border-[#283039]">
+<span class="material-symbols-outlined text-[#9dabb9] text-[14px] leading-none mb-1">favorite</span>
+<p class="text-white text-sm font-bold font-mono leading-none flex items-baseline gap-1">68 <span class="text-[10px] text-[#516071] font-bold">BPM</span></p>
+</div>
+<div class="flex flex-col items-center justify-center p-1 rounded bg-surface-light border border-[#283039]">
+<span class="material-symbols-outlined text-[#9dabb9] text-[14px] leading-none mb-1">ecg_heart</span>
+<p class="text-white text-sm font-bold font-mono leading-none">52 <span class="text-xs text-[#516071]">ms</span></p>
+</div>
+</div>
+<div class="mb-2">
+<div class="flex flex-col rounded-lg border border-[#283039] bg-surface-light p-2 shadow-lg relative">
+<div class="flex flex-col z-10 mb-2">
+<p class="text-[#516071] text-[9px] font-bold uppercase tracking-wider mb-2">System &amp; Bio-Daten</p>
+<div class="flex items-center justify-between text-[9px]">
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input checked="" class="w-2.5 h-2.5 rounded-sm bg-[#2d353e] border-[#3b4754] text-primary focus:ring-0 focus:ring-offset-0 p-0" type="checkbox"/>
+<span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+<span class="text-white">Druck</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input checked="" class="w-2.5 h-2.5 rounded-sm bg-[#2d353e] border-[#3b4754] text-orange-400 focus:ring-0 focus:ring-offset-0 p-0" type="checkbox"/>
+<span class="h-1.5 w-1.5 rounded-full bg-orange-400"></span>
+<span class="text-white">Output</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input checked="" class="w-2.5 h-2.5 rounded-sm bg-[#2d353e] border-[#3b4754] text-pink-400 focus:ring-0 focus:ring-offset-0 p-0" type="checkbox"/>
+<span class="h-1.5 w-1.5 rounded-full bg-pink-400"></span>
+<span class="text-white">BPM</span>
+</label>
+<label class="flex items-center gap-1.5 cursor-pointer">
+<input checked="" class="w-2.5 h-2.5 rounded-sm bg-[#2d353e] border-[#3b4754] text-cyan-400 focus:ring-0 focus:ring-offset-0 p-0" type="checkbox"/>
+<span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+<span class="text-white">HRV</span>
+</label>
+</div>
+</div>
+<div class="relative h-[100px] w-full overflow-x-auto no-scrollbar">
+<div class="relative h-full" style="width: 200%;">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+<div class="border-t border-[#9dabb9] border-dashed w-full h-0"></div>
+<div class="border-t border-[#9dabb9] border-dashed w-full h-0"></div>
+<div class="border-t border-[#9dabb9] border-dashed w-full h-0"></div>
+</div>
+<svg class="absolute inset-0 h-full w-full" preserveAspectRatio="none" viewBox="0 0 200 50">
+<defs>
+<linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#137fec" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#137fec" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<line stroke="#ef4444" stroke-dasharray="2 1" stroke-width="0.25" vector-effect="non-scaling-stroke" x1="0" x2="200" y1="5" y2="5"></line>
+<path d="M0,40 Q5,38 10,25 T20,20 T30,15 T40,22 T50,10 Q60,12 70,28 T90,30 T110,25 T130,35 T150,20 T170,18 T200,30" fill="url(#chartGradient)" stroke="none"></path>
+<path d="M0,40 Q5,38 10,25 T20,20 T30,15 T40,22 T50,10 Q60,12 70,28 T90,30 T110,25 T130,35 T150,20 T170,18 T200,30" fill="none" stroke="#137fec" stroke-linecap="round" stroke-width="0.75" vector-effect="non-scaling-stroke"></path>
+<path d="M0,45 L10,45 L12.5,30 L20,30 L22.5,25 L35,25 L37.5,35 L50,35 L60,35 L62.5,40 L70,40 L72.5,30 L85,30 L87.5,25 L100,25 L102.5,35 L120,35 L130,35 L132.5,30 L140,30 L142.5,25 L165,25 L167.5,35 L200,35" fill="none" stroke="#fb923c" stroke-dasharray="1.5 0.5" stroke-linecap="round" stroke-width="0.75" vector-effect="non-scaling-stroke"></path>
+<path d="M0,42 Q6.25,45 12.5,40 T25,42 T37.5,38 T50,40 Q56.25,42 62.5,38 T75,40 T87.5,43 T100,41 Q112.5,45 125,40 T150,42 T175,38 T200,40" fill="none" stroke="#ec4899" stroke-linecap="round" stroke-width="0.5" vector-effect="non-scaling-stroke"></path>
+<path d="M0,48 L5,47 L10,49 L15,47 L20,48 L25,46 L30,48 L35,49 L40,47 L45,48 L50,47 L55,47 L60,49 L65,47 L70,48 L75,46 L80,48 L85,49 L90,47 L95,48 L100,47 L105,47 L110,49 L115,47 L120,48 L125,46 L130,48 L135,49 L140,47 L145,48 L150,47 L155,47 L160,49 L165,47 L170,48 L175,46 L180,48 L185,49 L190,47 L195,48 L200,47" fill="none" stroke="#22d3ee" stroke-linecap="round" stroke-width="0.5" vector-effect="non-scaling-stroke"></path>
+</svg>
+<div class="absolute top-0 right-0 text-[7px] text-red-500 font-bold bg-red-500/10 px-1 py-0.5 rounded-bl border-b border-l border-red-500/10">LIMIT</div>
+</div>
+</div>
+<div class="pt-2">
+<div class="range-slider-track">
+<div class="range-slider-range" style="left: 20%; width: 30%;">
+<div class="range-slider-handle left"></div>
+<div class="range-slider-handle right"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-2">
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039] space-y-2">
+<h4 class="text-white text-xs font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-orange-400 text-[16px]">tune</span>
+                        Grenzwerte
+                    </h4>
+<div class="grid grid-cols-2 gap-x-3 gap-y-2">
+<div class="col-span-2">
+<div class="flex justify-between text-[9px] mb-0.5">
+<span class="text-[#9dabb9]">Edge-Schwelle</span>
+<span class="text-white font-mono">800 PSI</span>
+</div>
+<input class="w-full accent-orange h-1 mt-0" max="1000" min="0" type="range" value="800"/>
+</div>
+<div>
+<div class="flex justify-between text-[9px] mb-0.5">
+<span class="text-[#9dabb9]">Edge-Austritt</span>
+<span class="text-white font-mono">650</span>
+</div>
+<input class="w-full h-1 mt-0" max="1000" min="0" type="range" value="650"/>
+</div>
+<div>
+<div class="flex justify-between text-[9px] mb-0.5">
+<span class="text-[#9dabb9]">Hard Stop</span>
+<span class="text-red-400 font-mono">920</span>
+</div>
+<input class="w-full accent-red h-1 mt-0" max="1200" min="0" type="range" value="920"/>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-2 grid grid-cols-1 gap-2">
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039]">
+<h4 class="text-white text-xs font-bold flex items-center gap-1.5 mb-2">
+<span class="material-symbols-outlined text-purple-400 text-[16px]">flag</span>
+                        Ende-Logik
+                    </h4>
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-[#0d1014] rounded px-2 py-1.5 border border-[#283039] flex flex-col">
+<label class="text-[8px] text-[#9dabb9] font-bold uppercase mb-0.5">Max. Edges</label>
+<div class="flex items-center">
+<input class="w-full bg-transparent border-none p-0 text-sm font-bold text-white focus:ring-0" placeholder="-" type="number" value="10"/>
+<span class="text-[9px] text-[#516071] font-bold">x</span>
+</div>
+</div>
+<div class="bg-[#0d1014] rounded px-2 py-1.5 border border-[#283039] flex flex-col">
+<label class="text-[8px] text-[#9dabb9] font-bold uppercase mb-0.5">Max. Zeit (m)</label>
+<div class="flex items-center">
+<input class="w-full bg-transparent border-none p-0 text-sm font-bold text-white focus:ring-0" placeholder="-" type="number" value="45"/>
+<span class="text-[9px] text-[#516071] font-bold">min</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039]">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-white text-xs font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-pink-400 text-[16px]">favorite</span>
+                            Happy End / Ruin
+                        </h4>
+<div class="relative inline-block w-6 align-middle select-none">
+<input class="toggle-checkbox absolute block w-3 h-3 rounded-full bg-white border border-[#516071] appearance-none cursor-pointer transition-all duration-300 z-10 top-0.5 left-0.5 checked:right-0.5 checked:left-auto checked:border-primary" id="happy-toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-4 rounded-full bg-[#2d353e] cursor-pointer border border-[#3b4754]" for="happy-toggle"></label>
+</div>
+</div>
+<div class="flex rounded-md bg-[#0d1014] p-0.5 border border-[#283039] mb-2">
+<button class="flex-1 py-1 rounded text-[9px] font-bold bg-pink-500/20 text-pink-400 shadow-sm border border-pink-500/30">HAPPY</button>
+<button class="flex-1 py-1 rounded text-[9px] font-bold text-[#516071] hover:text-white transition-colors">RUIN</button>
+<button class="flex-1 py-1 rounded text-[9px] font-bold text-[#516071] hover:text-white transition-colors">ZUFALL</button>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="flex flex-col bg-[#0d1014] rounded px-2 py-1 border border-[#283039]">
+<span class="text-[7px] text-[#9dabb9] font-bold uppercase mb-0.5">Nach Edges</span>
+<input class="bg-transparent border-none p-0 text-sm font-mono font-bold text-pink-400 focus:ring-0" type="number" value="5"/>
+</div>
+<div class="flex flex-col bg-[#0d1014] rounded px-2 py-1 border border-[#283039] opacity-50">
+<span class="text-[7px] text-[#9dabb9] font-bold uppercase mb-0.5">Nach Minuten</span>
+<input class="bg-transparent border-none p-0 text-sm font-mono font-bold text-[#516071] focus:ring-0" disabled="" type="number" value="20"/>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-2">
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039] space-y-2">
+<div class="flex justify-between items-center">
+<h4 class="text-white text-xs font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-green-400 text-[16px]">vibration</span>
+                            Output &amp; Vibration
+                        </h4>
+</div>
+<div class="grid grid-cols-3 gap-1.5">
+<button class="h-8 rounded bg-[#3b4754] border border-[#516071] flex items-center justify-center text-white shadow-md relative overflow-hidden group">
+<svg class="w-6 h-3 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 40 20">
+<line x1="0" x2="40" y1="10" y2="10"></line>
+</svg>
+<span class="absolute -bottom-px text-[7px] font-bold uppercase">Konstant</span>
+</button>
+<button class="h-8 rounded bg-[#283039] hover:bg-[#3b4754] border border-[#283039] flex items-center justify-center text-[#516071] hover:text-white transition-colors relative overflow-hidden group">
+<svg class="w-6 h-3 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 40 20">
+<path d="M0,18 L5,18 L5,2 L15,2 L15,18 L25,18 L25,2 L35,2 L35,18 L40,18"></path>
+</svg>
+<span class="absolute -bottom-px text-[7px] font-bold uppercase">Puls</span>
+</button>
+<button class="h-8 rounded bg-[#283039] hover:bg-[#3b4754] border border-[#283039] flex items-center justify-center text-[#516071] hover:text-white transition-colors relative overflow-hidden group">
+<svg class="w-6 h-3 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 40 20">
+<path d="M0,10 Q10,0 20,10 T40,10"></path>
+</svg>
+<span class="absolute -bottom-px text-[7px] font-bold uppercase">Welle</span>
+</button>
+</div>
+<div class="flex gap-3 pt-1">
+<div class="flex-1">
+<div class="flex justify-between text-[9px] mb-0.5">
+<span class="text-[#9dabb9]">Min Output</span>
+<span class="text-white font-mono">15%</span>
+</div>
+<input class="w-full h-1" max="100" min="0" type="range" value="15"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between text-[9px] mb-0.5">
+<span class="text-[#9dabb9]">Max Output</span>
+<span class="text-white font-mono">85%</span>
+</div>
+<input class="w-full h-1" max="100" min="0" type="range" value="85"/>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-2">
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039] space-y-2">
+<div class="flex justify-between items-center mb-1">
+<h4 class="text-white text-xs font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-pink-400 text-[16px]">volume_up</span>
+                            Audio-Einstellungen
+                        </h4>
+<div class="relative inline-block w-8 align-middle select-none">
+<input class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-2 border-[#516071] appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0 checked:right-0 checked:left-auto checked:border-primary" id="audio-toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-4 rounded-full bg-[#2d353e] cursor-pointer border border-[#3b4754]" for="audio-toggle"></label>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-[#111418] rounded px-2 py-1.5 border border-[#283039]/50 mb-2">
+<span class="material-symbols-outlined text-[#516071] text-[14px]">volume_down</span>
+<input class="flex-1 h-1 accent-pink-500" max="100" min="0" type="range" value="65"/>
+<span class="text-[10px] text-pink-400 font-mono w-6 text-right">65%</span>
+</div>
+<div class="grid grid-cols-3 gap-1">
+<button class="py-1.5 rounded text-[9px] font-bold bg-[#111418] text-[#516071] border border-[#283039] hover:text-white hover:border-[#516071] transition-colors">NEUTRAL</button>
+<button class="py-1.5 rounded text-[9px] font-bold bg-pink-500 text-white shadow-sm ring-1 ring-pink-400/50 transition-colors">SPOTT</button>
+<button class="py-1.5 rounded text-[9px] font-bold bg-[#111418] text-[#516071] border border-[#283039] hover:text-white hover:border-[#516071] transition-colors">FRUST</button>
+</div>
+</div>
+</div>
+<div class="mb-6 grid grid-cols-1 gap-2">
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039] flex flex-col">
+<h4 class="text-white text-xs font-bold mb-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#9dabb9] text-[16px]">settings_suggest</span>
+                        Sitzungsprofile
+                    </h4>
+<div class="flex flex-col gap-2">
+<div class="relative w-full">
+<input class="w-full bg-[#111418] border border-[#283039] rounded text-[11px] text-white placeholder-[#516071] h-8 px-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Profilname..." type="text" value="Training Alpha_01"/>
+<span class="material-symbols-outlined absolute right-2 top-2 text-[#516071] text-[14px]">edit</span>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 h-8 flex items-center justify-center gap-1.5 rounded bg-[#2d353e] border border-[#3b4754] text-[#9dabb9] hover:text-white hover:bg-[#3b4754] transition-colors">
+<span class="material-symbols-outlined text-[14px]">save</span>
+<span class="text-[9px] font-bold uppercase">Speichern</span>
+</button>
+<button class="flex-1 h-8 flex items-center justify-center gap-1.5 rounded bg-[#2d353e] border border-[#3b4754] text-[#9dabb9] hover:text-white hover:bg-[#3b4754] transition-colors">
+<span class="material-symbols-outlined text-[14px]">file_open</span>
+<span class="text-[9px] font-bold uppercase">Laden</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-light rounded-lg p-2 border border-[#283039] flex flex-col">
+<h4 class="text-white text-xs font-bold mb-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#9dabb9] text-[16px]">history</span>
+                        Session-Verlauf
+                    </h4>
+<div class="flex flex-col gap-2">
+<div class="bg-[#111418] border border-[#283039] rounded p-2 max-h-24 overflow-y-auto no-scrollbar">
+<div class="flex justify-between items-center text-[9px] text-[#9dabb9] border-b border-[#283039] pb-1 mb-1">
+<span>Gestern, 22:15</span>
+<span class="text-white">45min / 12 Edges</span>
+</div>
+<div class="flex justify-between items-center text-[9px] text-[#9dabb9]">
+<span>03.11, 19:30</span>
+<span class="text-white">30min / 8 Edges</span>
+</div>
+</div>
+<button class="w-full h-7 flex items-center justify-center gap-1.5 rounded bg-[#2d353e] border border-[#3b4754] text-[#9dabb9] hover:text-white hover:bg-[#3b4754] transition-colors">
+<span class="text-[9px] font-bold uppercase">Alle anzeigen</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<footer class="absolute bottom-0 left-0 right-0 bg-surface-dark/95 border-t border-[#283039] px-4 py-2 backdrop-blur-md z-30">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-orange-400 text-[18px]">thermostat</span>
+<div class="flex flex-col">
+<span class="text-[9px] text-[#516071] uppercase font-bold leading-none">Systemtemp</span>
+<span class="text-xs font-bold text-white leading-tight font-mono">42°C</span>
+</div>
+</div>
+<div class="h-6 w-[1px] bg-[#283039]"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-green-500 text-[18px]">lock</span>
+<div class="flex flex-col text-right">
+<span class="text-[9px] text-[#516071] uppercase font-bold leading-none">Sicherheit</span>
+<span class="text-xs font-bold text-white leading-tight">Aktiv</span>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>
